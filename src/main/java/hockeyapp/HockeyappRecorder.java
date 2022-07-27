@@ -24,6 +24,7 @@ import org.json.simple.parser.JSONParser;
 import org.kohsuke.stapler.DataBoundConstructor;
 import hudson.scm.ChangeLogSet.Entry;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
 
 import net.sf.json.JSONObject;
@@ -137,9 +138,7 @@ public class HockeyappRecorder extends Recorder {
 			EnvVars vars = build.getEnvironment(listener);
 
 			// Copy remote file to local file system.
-			tempDir = File.createTempFile("jtf", null);
-			tempDir.delete();
-			tempDir.mkdirs();
+			tempDir = Files.createTempDirectory("jtf").toFile();
 
 			File file = getFileLocally(build.getWorkspace(),
 					vars.expand(filePath), tempDir);
